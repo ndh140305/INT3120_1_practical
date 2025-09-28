@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,50 +61,48 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Cell(topic: Topic) {
-    Card (
-        colors = androidx.compose.material3.CardDefaults.cardColors(
-            containerColor = Color.LightGray
-        ))
-    {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(topic.imageSourceId),
-                contentDescription = stringResource(topic.stringSourceId),
-                modifier = Modifier
-                    .weight(1f)
-                    .height(68.dp)
+    Row(
+        modifier = Modifier
+            .border(
+                width = 1.dp,
+                color = Color.Black,
+                shape = RectangleShape
             )
-            Column(
-                modifier = Modifier
-                    .weight(2f)
-                    .height(68.dp)
-                    .padding(top = 16.dp, end = 16.dp)
+            .fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(topic.imageSourceId),
+            contentDescription = stringResource(topic.stringSourceId),
+            modifier = Modifier
+                .weight(1f)
+                .height(68.dp)
+        )
+        Column(
+            modifier = Modifier.weight(2f)
+                .height(68.dp)
+                .padding(top = 16.dp, end = 16.dp)
+        ) {
+            Text(
+                text = LocalContext.current.getString(topic.stringSourceId),
+                fontSize = 16.sp,
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = LocalContext.current.getString(topic.stringSourceId),
-                    fontSize = 16.sp,
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(start = 16.dp)
+                Image(
+                    painter = painterResource(id = R.drawable.icon),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(16.dp),
+                    contentDescription = "icon"
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.icon),
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .size(16.dp),
-                        contentDescription = "icon"
-                    )
-                    Text(
-                        text = topic.numberSourceId.toString(),
-                        style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
+                Text(
+                    text = topic.numberSourceId.toString(),
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
         }
     }
@@ -115,9 +111,7 @@ fun Cell(topic: Topic) {
 @Composable
 fun grid(topics: List<Topic>) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        columns = GridCells.Fixed(2)
     ) {
         items(topics) { item ->
             Cell(item)
