@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">30Days</string>
+
+    <string name="day1">Day 1</string>
+    <string name="day2">Day 2</string>
+    <string name="day3">Day 3</string>
+    <string name="day4">Day 4</string>
+    <string name="day5">Day 5</string>
+
+    <string name="name1">Push Ups</string>
+    <string name="name2">Sit Ups</string>
+    <string name="name3">Squats</string>
+    <string name="name4">Lunges</string>
+    <string name="name5">Plank</string>
+
+    <string name="description1">Do 3 sets of 15 push ups.</string>
+    <string name="description2">Do 3 sets of 20 sit ups.</string>
+    <string name="description3">Do 3 sets of 25 squats.</string>
+    <string name="description4">Do 3 sets of 20 lunges (each leg).</string>
+    <string name="description5">Hold plank position for 60 seconds.</string>
+</resources>

@@ -4,6 +4,17 @@ import org.junit.Test
 import java.text.NumberFormat
 import kotlin.test.assertEquals
 
+// Annotations
+import org.junit.Before;
+import org.junit.runner.RunWith;
+
+// Basic JUnit4 test runner
+import org.junit.runners.JUnit4;
+
+// assertThat method
+import org.junit.Assert.assertThat;
+
+
 class TipCalculatorTest {
     @Test
     fun calculateTip_20PercentNoRoundup() {
