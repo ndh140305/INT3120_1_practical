@@ -112,8 +112,7 @@ fun Cell(topic: Topic) {
 fun grid(topics: List<Topic>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2)
-    ) {
-        items(topics) { item ->
+    ) { items(topics) { item ->
             Cell(item)
         }
     }
