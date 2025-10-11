@@ -108,7 +108,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.displayLarge,
             )
         },
-
         modifier = modifier
     )
 }
+
