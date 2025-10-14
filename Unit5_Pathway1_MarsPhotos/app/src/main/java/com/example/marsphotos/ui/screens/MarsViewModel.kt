@@ -15,17 +15,25 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.marsphotos.network.MarsApi
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.marsphotos.data.NetworkMarsPhotosRepository
 import kotlinx.coroutines.launch
+import com.example.marsphotos.data.MarsPhotosRepository
 import java.io.IOException
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import com.example.marsphotos.MarsPhotosApplication
+import kotlinx.coroutines.CoroutineExceptionHandler
 
-class MarsViewModel : ViewModel() {
+class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
     var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
         private set
@@ -42,14 +50,29 @@ class MarsViewModel : ViewModel() {
      * [MarsPhoto] [List] [MutableList].
      */
     private fun getMarsPhotos() {
-        viewModelScope.launch {
+        val handler = CoroutineExceptionHandler { _, exception ->
+            Log.e("MarsApp", "Coroutine failed: $exception")
+        }
+        viewModelScope.launch(handler) {
             marsUiState = try {
-                val listResult = MarsApi.retrofitService.getPhotos()
+                val listResult = marsPhotosRepository.getMarsPhotos()
                 MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
             } catch (e: IOException) {
                 MarsUiState.Error
+                throw e
             } catch (e: Exception) {
                 MarsUiState.Error
+                throw e
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as MarsPhotosApplication)
+                val marsPhotosRepository = application.container.marsPhotosRepository
+                MarsViewModel(marsPhotosRepository = marsPhotosRepository)
             }
         }
     }

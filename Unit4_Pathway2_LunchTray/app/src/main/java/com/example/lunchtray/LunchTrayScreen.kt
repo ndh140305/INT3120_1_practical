@@ -16,6 +16,7 @@
 package com.example.lunchtray
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -30,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -67,16 +69,26 @@ fun LunchTrayAppBar(
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack) {
-                IconButton(onClick = navigateUp) {
+                IconButton(
+                    onClick = navigateUp,
+                    Modifier.pointerInput(Unit) {
+                        detectTapGestures(
+                            onTap = { },
+                            onDoubleTap = { },
+                            onLongPress = { }
+                        )
+                    }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back_button)
                     )
                 }
+
             }
         }
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LunchTrayApp() {
@@ -92,7 +104,9 @@ fun LunchTrayApp() {
             // TODO: AppBar
             val backStackEntry by navController.currentBackStackEntryAsState()
             LunchTrayAppBar(
-                currentScreenTitle = LunchTrayScreen.valueOf(backStackEntry?.destination?.route ?: LunchTrayScreen.Start.name).title,
+                currentScreenTitle = LunchTrayScreen.valueOf(
+                    backStackEntry?.destination?.route ?: LunchTrayScreen.Start.name
+                ).title,
                 canNavigateBack = true,
                 navigateUp = {
                     navController.navigateUp()
@@ -105,9 +119,13 @@ fun LunchTrayApp() {
 
         // TODO: Navigation host
 
-        NavHost(navController = navController,
-            modifier = Modifier.padding(innerPadding).fillMaxSize(),
-            startDestination = LunchTrayScreen.Start.name) {
+        NavHost(
+            navController = navController,
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            startDestination = LunchTrayScreen.Start.name
+        ) {
             composable(LunchTrayScreen.Start.name) {
                 StartOrderScreen(
                     onStartOrderButtonClicked = { navController.navigate(LunchTrayScreen.Entree.name) }
@@ -117,11 +135,12 @@ fun LunchTrayApp() {
             composable(LunchTrayScreen.Entree.name) {
                 EntreeMenuScreen(
                     DataSource.entreeMenuItems,
-                    onCancelButtonClicked = { viewModel.resetOrder()
+                    onCancelButtonClicked = {
+                        viewModel.resetOrder()
                         navController.popBackStack(LunchTrayScreen.Start.name, inclusive = false)
                     },
-                    onNextButtonClicked = { navController.navigate(LunchTrayScreen.SideDish.name)},
-                    onSelectionChanged = { item -> viewModel.updateEntree(item)}
+                    onNextButtonClicked = { navController.navigate(LunchTrayScreen.SideDish.name) },
+                    onSelectionChanged = { item -> viewModel.updateEntree(item) }
                 )
             }
 
@@ -134,8 +153,8 @@ fun LunchTrayApp() {
                     onNextButtonClicked = {
                         navController.navigate(LunchTrayScreen.Accompaniment.name)
                     },
-                    onSelectionChanged = {
-                        item -> viewModel.updateSideDish(item)
+                    onSelectionChanged = { item ->
+                        viewModel.updateSideDish(item)
                     },
                     options = DataSource.sideDishMenuItems
                 )
@@ -151,8 +170,8 @@ fun LunchTrayApp() {
                     onNextButtonClicked = {
                         navController.navigate(LunchTrayScreen.Checkout.name)
                     },
-                    onSelectionChanged = {
-                        item -> viewModel.updateAccompaniment(item)
+                    onSelectionChanged = { item ->
+                        viewModel.updateAccompaniment(item)
                     }
                 )
             }
@@ -162,14 +181,17 @@ fun LunchTrayApp() {
                     uiState,
                     onCancelButtonClicked = {
                         viewModel.resetOrder()
-                        navController.popBackStack(LunchTrayScreen.Accompaniment.name, inclusive = false)
+                        navController.popBackStack(
+                            LunchTrayScreen.Accompaniment.name,
+                            inclusive = false
+                        )
                     },
                     onNextButtonClicked = {
                         viewModel.resetOrder()
                         navController.popBackStack(LunchTrayScreen.Start.name, inclusive = false)
                     },
 
-                )
+                    )
             }
         }
     }

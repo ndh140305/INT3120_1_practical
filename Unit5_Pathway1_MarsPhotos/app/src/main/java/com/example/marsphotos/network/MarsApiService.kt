@@ -10,16 +10,6 @@ private const val BASE_URL =
     "https://android-kotlin-fun-mars-server.appspot.com"
 
 private val json = Json { ignoreUnknownKeys = true }
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-    .baseUrl(BASE_URL)
-    .build()
-
-object MarsApi {
-    val retrofitService: MarsApiService by lazy {
-        retrofit.create(MarsApiService::class.java)
-    }
-}
 
 interface MarsApiService {
     @GET("photos")
