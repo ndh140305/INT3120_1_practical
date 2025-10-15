@@ -31,6 +31,7 @@ import com.example.marsphotos.data.MarsPhotosRepository
 import java.io.IOException
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import com.example.marsphotos.MarsPhotosApplication
+import com.example.marsphotos.network.MarsPhoto
 import kotlinx.coroutines.CoroutineExceptionHandler
 
 class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : ViewModel() {
@@ -49,14 +50,13 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
      * Gets Mars photos information from the Mars API Retrofit service and updates the
      * [MarsPhoto] [List] [MutableList].
      */
-    private fun getMarsPhotos() {
+    fun getMarsPhotos() {
         val handler = CoroutineExceptionHandler { _, exception ->
             Log.e("MarsApp", "Coroutine failed: $exception")
         }
         viewModelScope.launch(handler) {
             marsUiState = try {
-                val listResult = marsPhotosRepository.getMarsPhotos()
-                MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
+                MarsUiState.Success(marsPhotosRepository.getMarsPhotos())
             } catch (e: IOException) {
                 MarsUiState.Error
                 throw e
@@ -78,7 +78,7 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
     }
 }
 sealed interface MarsUiState {
-    data class Success(val photos: String) : MarsUiState
+    data class Success(val photos: List<MarsPhoto>) : MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }

@@ -189,7 +189,8 @@ private fun SportsListItem(
                 Text(
                     text = stringResource(sport.titleResourceId),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = dimensionResource(R.dimen.card_text_vertical_space))
+                    modifier = Modifier.padding(bottom = dimensionResource(R.dimen.card_text_vertical_space)),
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = stringResource(sport.subtitleResourceId),
@@ -203,13 +204,15 @@ private fun SportsListItem(
                     Text(
                         text = pluralStringResource(
                             R.plurals.player_count_caption, sport.playerCount, sport.playerCount
-                        ), style = MaterialTheme.typography.bodySmall
+                        ), style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.weight(1f))
                     if (sport.olympic) {
                         Text(
                             text = stringResource(R.string.olympic_caption),
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
