@@ -1,4 +1,5 @@
-package com.example.inventory.data
+package com.example.busschedule.data
+
 import kotlinx.coroutines.flow.Flow
 
 /**
