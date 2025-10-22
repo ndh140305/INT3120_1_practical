@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.example.inventory.data
-
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-
-/**
- * Entity data class represents a single row in the database.
- */
-
-@Entity(tableName = "items")
-data class Item(
-    @PrimaryKey
-    val id: Int = 0,
-    val name: String,
-    val price: Double,
-    val quantity: Int
-)
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    extra.apply {
+        set("nav_version", "2.8.4")
+    }
+}
+plugins {
+    id("com.android.application") version "8.7.3" apply false
+    id("com.android.library") version "8.7.3" apply false
+    id("org.jetbrains.kotlin.android") version "2.1.0" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0" apply false
+}
