@@ -33,6 +33,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -63,6 +64,12 @@ android {
 
 dependencies {
 
+    // Espresso
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Junit
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    // Work testing
+    androidTestImplementation("androidx.work:work-testing:2.8.1")
     implementation(platform("androidx.compose:compose-bom:2024.12.01"))
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation("androidx.activity:activity-ktx:1.9.3")

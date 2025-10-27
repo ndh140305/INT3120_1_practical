@@ -1,4 +1,4 @@
-package com.example.bluromatic
+package com.example.bluromatic.workers
 
 import android.Manifest
 import android.content.Context
@@ -9,13 +9,13 @@ import androidx.annotation.RequiresPermission
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.example.bluromatic.workers.blurBitmap
-import com.example.bluromatic.workers.makeStatusNotification
-import com.example.bluromatic.workers.writeBitmapToFile
+import com.example.bluromatic.DELAY_TIME_MILLIS
+import com.example.bluromatic.KEY_BLUR_LEVEL
+import com.example.bluromatic.KEY_IMAGE_URI
+import com.example.bluromatic.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.net.URI
 
 private const val TAG = "BlurWorker"
 
