@@ -38,7 +38,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -67,15 +66,12 @@ fun EntryBottomSheet(
         sheetPeekHeight = 0.dp,
         sheetContent = {
             Column {
-                SheetHeader(Modifier.padding(dimensionResource(R.dimen.padding_small)))
+                SheetHeader()
                 SheetForm(
                     juice = juice,
                     onUpdateJuice = juiceTrackerViewModel::updateCurrentJuice,
                     onCancel = onCancel,
-                    onSubmit = onSubmit,
-                    modifier = Modifier.padding(
-                        horizontal = dimensionResource(R.dimen.padding_medium)
-                    )
+                    onSubmit = onSubmit
                 )
             }
         }
@@ -86,9 +82,9 @@ fun EntryBottomSheet(
 
 @Composable
 fun SheetHeader(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(8.dp)) {
         Text(
-            modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
+            modifier = modifier.padding(8.dp),
             text = stringResource(R.string.bottom_sheet_headline),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
         )
@@ -102,23 +98,18 @@ fun SheetForm(
     onUpdateJuice: (Juice) -> Unit,
     onCancel: () -> Unit,
     onSubmit: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
+    Column(modifier.padding(horizontal = 16.dp)) {
         TextInputRow(
             inputLabel = stringResource(R.string.juice_name),
             fieldValue = juice.name,
-            onValueChange = { name -> onUpdateJuice(juice.copy(name = name)) },
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = { name -> onUpdateJuice(juice.copy(name = name)) }
         )
         TextInputRow(
             inputLabel = stringResource(R.string.juice_description),
             fieldValue = juice.description,
-            onValueChange = { description -> onUpdateJuice(juice.copy(description = description)) },
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = { description -> onUpdateJuice(juice.copy(description = description)) }
         )
         ColorSpinnerRow(
             colorSpinnerPosition = findColorIndex(juice.color),
@@ -131,9 +122,7 @@ fun SheetForm(
             onRatingChange = { rating -> onUpdateJuice(juice.copy(rating = rating)) }
         )
         ButtonRow(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(bottom = dimensionResource(R.dimen.padding_medium)),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             onCancel = onCancel,
             onSubmit = onSubmit,
             submitButtonEnabled = juice.name.isNotEmpty()
@@ -149,7 +138,8 @@ fun ButtonRow(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .padding(bottom = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         OutlinedButton(
@@ -176,11 +166,10 @@ fun TextInputRow(
 ) {
     InputRow(inputLabel, modifier) {
         TextField(
-            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_small)),
+            modifier = Modifier.fillMaxWidth(),
             value = fieldValue,
             onValueChange = onValueChange,
             singleLine = true,
-            maxLines = 1,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = colorScheme.surface,
                 unfocusedContainerColor = colorScheme.surface,
@@ -198,13 +187,15 @@ fun InputRow(
     content: @Composable () -> Unit
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = inputLabel,
             fontWeight = FontWeight.SemiBold,
-            modifier = modifier.weight(1f)
+            modifier = modifier
+                .weight(1f)
+                .padding(end = 8.dp),
         )
         Box(modifier = Modifier.weight(2f)) {
             content()

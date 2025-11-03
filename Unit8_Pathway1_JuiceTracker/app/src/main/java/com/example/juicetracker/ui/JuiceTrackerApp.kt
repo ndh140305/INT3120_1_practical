@@ -18,8 +18,6 @@ package com.example.juicetracker.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
@@ -43,6 +41,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JuiceTrackerApp(
+    modifier: Modifier = Modifier,
     juiceTrackerViewModel: JuiceTrackerViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
 
@@ -59,7 +58,7 @@ fun JuiceTrackerApp(
     EntryBottomSheet(
         juiceTrackerViewModel = juiceTrackerViewModel,
         sheetScaffoldState = bottomSheetScaffoldState,
-        modifier = Modifier,
+        modifier = modifier,
         onCancel = {
             scope.launch {
                 bottomSheetScaffoldState.bottomSheetState.hide()
@@ -71,7 +70,8 @@ fun JuiceTrackerApp(
                 bottomSheetScaffoldState.bottomSheetState.hide()
             }
         }
-    ) {
+    )
+    {
         Scaffold(
             topBar = {
                 JuiceTrackerTopAppBar()
@@ -94,6 +94,7 @@ fun JuiceTrackerApp(
                             bottom = dimensionResource(R.dimen.padding_small)
                         )
                 )
+
                 JuiceTrackerList(
                     juices = trackerState,
                     onDelete = { juice -> juiceTrackerViewModel.deleteJuice(juice) },
