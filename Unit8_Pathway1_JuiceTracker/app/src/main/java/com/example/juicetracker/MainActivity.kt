@@ -16,18 +16,20 @@
 package com.example.juicetracker
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import com.example.juicetracker.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import com.example.juicetracker.ui.JuiceTrackerApp
+import com.example.juicetracker.ui.theme.JuiceTrackerTheme
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        val binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        setContent {
+            JuiceTrackerTheme {
+                JuiceTrackerApp()
+            }
+        }
     }
 }

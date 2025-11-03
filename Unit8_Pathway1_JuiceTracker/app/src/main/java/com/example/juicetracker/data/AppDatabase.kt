@@ -28,13 +28,19 @@ abstract class AppDatabase: RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(context, AppDatabase::class.java, "app_database")
+                Room.databaseBuilder(
+                    context,
+                    AppDatabase::class.java,
+                    "app_database"
+                )
                     // Setting this option in your app's database builder means that Room
                     // permanently deletes all data from the tables in your database when it
                     // attempts to perform a migration with no defined migration path.
                     .fallbackToDestructiveMigration()
                     .build()
-                    .also { INSTANCE = it }
+                    .also {
+                        INSTANCE = it
+                    }
             }
         }
     }
